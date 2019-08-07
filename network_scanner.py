@@ -24,21 +24,20 @@ def scan(ip):
     #arp_request_broadcast.show()
 
     #answered_list, unanswered_list = scapy.srp(arp_request_broadcast, timeout=1)
-    answered_list = scapy.srp(arp_request_broadcast, timeout=1)[0]
+    answered_list = scapy.srp(arp_request_broadcast, timeout=1, verbose=False)[0]
     #srp allows us to send packets with custom ether part/layer
 
     #print(answered_list.summary())
     #this gives us a summary of all the data returned
 
-#loop through all elements in the answered_list
+    print("IP\t\t\tMAC Address\n-----------------------------------------------")
+    #loop through all elements in the answered_list
     for element in answered_list:
         #print(element[1].show())
         #show everything in the packet
 
         #show only IP address of source and MAC
-        print(element[1].psrc)
-        print(element[1].hwsrc)
-        print("-------------------------------------------------------------------------")
+        print(element[1].psrc + "\t\t" + element[1].hwsrc)
 
 scan("10.0.2.1/24")
 
