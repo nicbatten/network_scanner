@@ -6,9 +6,11 @@ import scapy.all as scapy
 def scan(ip):
     #scapy.arping(ip)
     arp_request = scapy.ARP(pdst=ip)
+
     #arp_request.show()
     #arp_request.pdst=ip
     #print(arp_request.summary())
+
     #scapy.ls(scapy.ARP())
     #this lists all the values you can set with scapy
 
@@ -30,14 +32,25 @@ def scan(ip):
     #print(answered_list.summary())
     #this gives us a summary of all the data returned
 
-    print("IP\t\t\tMAC Address\n-----------------------------------------------")
+    clients_list = []
+
     #loop through all elements in the answered_list
     for element in answered_list:
         #print(element[1].show())
         #show everything in the packet
 
+        client_dict={"ip":element[1].psrc , "mac": element[1].hwsrc}
+        clients_list.append(client_dict)
         #show only IP address of source and MAC
-        print(element[1].psrc + "\t\t" + element[1].hwsrc)
+        #print(element[1].psrc + "\t\t" + element[1].hwsrc)
+    return clients_list
 
-scan("10.0.2.1/24")
+def print_result(results_list):
+    print("IP\t\t\tMAC Address\n-----------------------------------------------")
+    for client in results_list:
+        print(client["ip"] + "\t\t" + client["mac"])
+
+
+scan_result = scan("10.0.2.1/24")
+print_result(scan_result)
 
